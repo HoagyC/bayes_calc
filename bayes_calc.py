@@ -26,12 +26,12 @@ def hyp_test(n, e, tt, tc, ct, cc):
     total = 0
     total += test_diff(1, e, tt, tc, ct, cc)
     for i in frange(e, 1, (1-e)/n):
-        total += test_diff(i, e, tt, tc, ct, cc)
+        total += 2*test_diff(i, e, tt, tc, ct, cc)
     total -= test_diff(e, e, tt, tc, ct, cc)
-    return total
+    return total/n
 
 
-def main_test(n, m, tt, tc, ct ,cc):
+def main_test(n, m, tt, tc, ct, cc):
     for i in frange(-1, 1, 1/m):
         print('posterior for difference of', i, 'is', hyp_test(n, i, tt, tc, ct, cc))
 
