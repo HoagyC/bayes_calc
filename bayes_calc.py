@@ -1,4 +1,5 @@
 from math import factorial
+from matplotlib import pyplot
 
 test_total = 40
 test_correct = 25
@@ -8,9 +9,9 @@ control_correct = 15
 
 # range function that can deal with floats
 def frange(x, y, jump):
-  while x < y:
-    yield x
-    x += jump
+    while x < y:
+        yield x
+        x += jump
 
 
 # n choose k for binomial calculations
@@ -52,10 +53,14 @@ def main_test(n, m, tt, tc, ct, cc):
     print(chances)
     normalize_factor = 1/sum(n for _, n in chances)
     print(normalize_factor)
-    posterior = [(i, n*normalize_factor) for i, n in chances]
-    print(posterior)
+    posterior = [(round(i, 3), n*normalize_factor) for i, n in chances]
+    print(*posterior, sep='\n')
+    return posterior
+
 
 # n = fidelity of integral approximation
 # m = number of potential differences checked
 
-main_test(20, 20, test_total, test_correct, control_total, control_correct)
+diff, probability = zip(*main_test(20, 20, test_total, test_correct, control_total, control_correct))
+pyplot.plot(diff, probability)
+pyplot.show()
