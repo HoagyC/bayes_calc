@@ -31,10 +31,16 @@ def test_diff(x, e, tt, tc, ct, cc):
 # approximates an integral of the likelihood of x, x-e as params by trying n evenly spaced possible values of x
 def hyp_test(n, e, tt, tc, ct, cc):
     total = 0
-    total += test_diff(1, e, tt, tc, ct, cc)
-    for i in frange(e, 1, (1-e)/n):
-        total += 2*test_diff(i, e, tt, tc, ct, cc)
-    total -= test_diff(e, e, tt, tc, ct, cc)
+    if e > 0:
+        total += test_diff(1, e, tt, tc, ct, cc)
+        for i in frange(e, 1, (1-e)/n):
+            total += 2*test_diff(i, e, tt, tc, ct, cc)
+        total -= test_diff(e, e, tt, tc, ct, cc)
+    else:
+        total += test_diff(1+e, e, tt, tc, ct, cc)
+        for i in frange(0, 1+e, (1+e)/n):
+            total += 2*test_diff(i, e, tt, tc, ct, cc)
+        total -= test_diff(0, e, tt, tc, ct, cc)
     return total
 
 
