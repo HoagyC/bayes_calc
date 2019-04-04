@@ -9,14 +9,14 @@ control_correct = 15
 
 # range function that can deal with floats
 def frange(x, y, jump):
-    while x < y:
+    while round(x, 5) < round(y, 5):
         yield x
         x += jump
 
 
 # n choose k for binomial calculations
 def comb(n, k):
-    return factorial(n) / factorial(k) / factorial(n - k)
+    return factorial(n) / (factorial(k)*factorial(n - k))
 
 
 # probability of k out n, with x probability per test
@@ -48,7 +48,7 @@ def hyp_test(n, e, tt, tc, ct, cc):
 # gets an integral of likelihood of x, x-e as binomial params for m values of e, evenly spaced between -1 and 1
 def main_test(n, m, tt, tc, ct, cc):
     chances = []
-    for i in frange(-1, 1, 1/m):
+    for i in frange(-1, 1, (1/m)*2):
         chances.append((i, hyp_test(n, i, tt, tc, ct, cc)))
     print(chances)
     normalize_factor = 1/sum(n for _, n in chances)
@@ -58,9 +58,10 @@ def main_test(n, m, tt, tc, ct, cc):
     return posterior
 
 
-# n = fidelity of integral approximation
-# m = number of potential differences checked
+# first arg = fidelity of integral approximation
+# second arg = number of potential differences
+data = main_test(100, 100, test_total, test_correct, control_total, control_correct)
 
-diff, probability = zip(*main_test(20, 20, test_total, test_correct, control_total, control_correct))
+diff, probability = zip(*data)
 pyplot.plot(diff, probability)
 pyplot.show()
