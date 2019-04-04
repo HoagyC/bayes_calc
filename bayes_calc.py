@@ -1,10 +1,10 @@
 from math import factorial
-from matplotlib import pyplot
+from matplotlib import pyplot as plt
 
-test_total = 40
-test_correct = 25
-control_total = 30
-control_correct = 15
+test_total = 100
+test_correct = 80
+control_total = 5
+control_correct = 2
 
 
 # range function that can deal with floats
@@ -50,7 +50,6 @@ def main_test(n, m, tt, tc, ct, cc):
     chances = []
     for i in frange(-1, 1, (1/m)*2):
         chances.append((i, hyp_test(n, i, tt, tc, ct, cc)))
-    print(chances)
     normalize_factor = 1/sum(n for _, n in chances)
     print(normalize_factor)
     posterior = [(round(i, 3), n*normalize_factor) for i, n in chances]
@@ -63,5 +62,8 @@ def main_test(n, m, tt, tc, ct, cc):
 data = main_test(100, 100, test_total, test_correct, control_total, control_correct)
 
 diff, probability = zip(*data)
-pyplot.plot(diff, probability)
-pyplot.show()
+plt.plot(diff, probability)
+plt.xlabel('Improvement in p(correct answer)')
+plt.ylabel('Relative likelihood')
+plt.title('Posterior from uniform prior')
+plt.show()
