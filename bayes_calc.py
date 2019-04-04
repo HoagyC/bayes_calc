@@ -6,7 +6,7 @@ control_total = 30
 control_correct = 15
 
 
-# range function that can dela with floats
+# range function that can deal with floats
 def frange(x, y, jump):
   while x < y:
     yield x
